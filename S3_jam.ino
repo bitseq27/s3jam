@@ -1,4 +1,4 @@
-#include <Arduino.h>
+﻿#include <Arduino.h>
 
 #include "display_buffer.h"
 #include "sensor_page.h"
@@ -12,6 +12,8 @@
 #include "city_page.h"
 #include "wifi_connect.h"
 
+#include "step_counter.h"
+#include "step_counter.h"
 enum {
   PAGE_ACCEL,
   PAGE_WIFI,
@@ -33,7 +35,7 @@ enum {
 #define PAGE_CUBE_ENABLED        false
 #define PAGE_UPTIME_ENABLED      true
 #define PAGE_FROG_ENABLED        true
-#define PAGE_CITY_ENABLED        true
+#define PAGE_CITY_ENABLED        false
 #define PAGE_WIFICONNECT_ENABLED false
 
 #define ACCEL_PAGE_DURATION_MS       3000
@@ -153,7 +155,9 @@ void setup()
 
   displayBuffer_init();
 
-  sensorPage_init();
+  sensorPage_init();
+    stepCounter_init();
+    stepCounter_init();
   wifiScanPage_init();
   bleScanPage_init();
 
@@ -163,7 +167,11 @@ void setup()
 void loop()
 {
   unsigned long now = millis();
-
+
+    // Update step counter in background (always runs)
+    stepCounter_update(now);
+    // Update step counter in background (always runs)
+    stepCounter_update(now);
   switch (currentPage) {
     case PAGE_ACCEL:
       sensorPage_loop(now);
@@ -235,6 +243,12 @@ void loop()
       }
       break;
   }
+    // Draw step counter overlay on top of current page
+    stepCounter_drawOverlay(now);
+    // Draw step counter overlay on top of current page
+    stepCounter_drawOverlay(now);
+
+
 
   delay(1);
 }
