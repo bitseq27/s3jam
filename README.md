@@ -565,6 +565,7 @@ Serial monitor @ **115200 baud**. Notable output:
 8. **All pages disabled ⇒** `firstEnabledPage()` returns `PAGE_ACCEL`, whose `enter` runs regardless of its own flag — the device would sit on the sensor page forever.
 9. **`!git push.bat`** — destructive one-click history rewrite + force push (`git push -f`). Kept for the author's workflow; don't run it casually.
 10. **Frog page dominance** — at 240 s the frog page accounts for ~72 % of carousel time by default; adjust `FROG_PAGE_DURATION_MS` if you want the other screens seen more often.
+11. **⚠️ WiFi Hardware Bug** — The ESP32-S3 WiFi hardware on this board has a known issue where using WiFi at full transmit power causes connection drops and instability. This repository mitigates the issue by setting reduced transmit power (`WiFi.setTxPower(WIFI_POWER_8_5dBm)`) in the `wifi_connect.cpp` page. The 8.5 dBm setting is significantly below maximum power (~20 dBm) and provides stable connections. If you modify WiFi-related code or add new WiFi functionality, maintain this reduced power setting to avoid connection issues.
 
 ---
 
